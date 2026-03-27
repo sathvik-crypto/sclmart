@@ -21,6 +21,8 @@ const request = async (method, path, body) => {
 // ─── Auth ───────────────────────────────────
 export const login = (email, password) => request('POST', '/auth/login', { email, password });
 export const register = (name, email, password, role) => request('POST', '/auth/register', { name, email, password, role });
+export const verifyOtp = (email, otp) => request('POST', '/auth/verify-otp', { email, otp });
+export const resendOtp = (email) => request('POST', '/auth/resend-otp', { email });
 export const getMe = () => request('GET', '/auth/me');
 
 // ─── Utilities ──────────────────────────────
