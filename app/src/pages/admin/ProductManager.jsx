@@ -197,8 +197,8 @@ export default function ProductManager({ fixedPage, liveCategories }) {
 
         <ImageUpload 
           label="Card Image" 
-          value={editing.images?.[0] || ''} 
-          onChange={url => setEditing({ ...editing, images: [url] })} 
+          value={editing.image || editing.images?.[0] || ''} 
+          onChange={url => setEditing({ ...editing, image: url, images: [url] })} 
         />
 
         <div className="flex gap-6 pt-2">

@@ -129,7 +129,7 @@ const Furniture = () => {
                          onClick={() => setSelectedItem(selectedItem?.name === item.name ? null : item)}
                        >
                           <div className="h-[220px] overflow-hidden p-2 bg-gray-50">
-                             <img src={(item.image || "")} alt={item.name} className="w-full h-full object-cover rounded-[20px] grayscale brightness-90 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700 group-hover:scale-110" />
+                              <img src={(item.image || item.images?.[0] || "")} alt={item.name} className="w-full h-full object-cover rounded-[20px] grayscale brightness-90 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700 group-hover:scale-110" />
                           </div>
                           <div className="p-5 flex flex-col border-t border-gray-100">
                              <div className="flex justify-between items-start mb-2">

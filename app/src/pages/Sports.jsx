@@ -135,7 +135,7 @@ const Sports = () => {
                          className={`relative overflow-hidden rounded-[25px] shadow-sm group cursor-pointer min-h-[300px] border border-gray-300 transition-all duration-500 ${selectedItem?.name === work.name ? 'ring-4 ring-sm-blue shadow-2xl scale-[1.02]' : 'hover:scale-[1.01]'}`}
                          onClick={() => setSelectedItem(selectedItem?.name === work.name ? null : work)}
                        >
-                          <img src={(work.image || "")} alt={work.name} className="w-full h-full object-cover grayscale transition-all duration-700 hover:grayscale-0 hover:scale-110" />
+                          <img src={(work.image || work.images?.[0] || "")} alt={work.name} className="w-full h-full object-cover grayscale transition-all duration-700 hover:grayscale-0 hover:scale-110" />
                           <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                           <div className="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-all translate-y-3 group-hover:translate-y-0">
                              <h3 className="text-base font-black text-white uppercase tracking-tighter">{work.name}</h3>

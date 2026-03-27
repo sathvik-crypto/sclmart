@@ -129,7 +129,7 @@ const DigitalInfra = () => {
                          onClick={() => setSelectedItem(selectedItem?.name === work.name ? null : work)}
                        >
                           <div className="h-[200px] overflow-hidden p-2">
-                             <img src={(work.image || "")} alt={work.name} className="w-full h-full object-cover rounded-[20px] transition-transform duration-700 grayscale group-hover:grayscale-0 group-hover:scale-110" />
+                             <img src={(work.image || work.images?.[0] || "")} alt={work.name} className="w-full h-full object-cover rounded-[20px] transition-transform duration-700 grayscale group-hover:grayscale-0 group-hover:scale-110" />
                           </div>
                           <div className="p-5 flex justify-between items-end border-t border-gray-100 bg-white">
                              <div>
