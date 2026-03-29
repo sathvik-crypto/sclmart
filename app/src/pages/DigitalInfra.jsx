@@ -5,6 +5,7 @@ import { getProducts } from '../services/api';
 import { Link } from 'react-router-dom';
 import { Laptop, Monitor, Wifi, Cpu, Globe, ArrowRight, ArrowUpRight, ShieldCheck, Zap, Download, Eye, FileText, CheckCircle2 } from 'lucide-react';
 import InlineQuickView from '../components/InlineQuickView';
+import CMSMedia from '../components/ui/CMSMedia';
 
 const DigitalInfra = () => {
   const { blocks, loading } = useCMSPage('digital');
@@ -18,14 +19,13 @@ const DigitalInfra = () => {
     });
   }, []);
 
-  useEffect(() => {
-    const cats = blocks?.sidebar_categories?.categories || [];
-    if (cats.length > 0) {
-      setSelectedCat(cats[0]);
-    }
-  }, [blocks]);
-
-  const cats = blocks?.sidebar_categories?.categories || [];
+  const blocksList = blocks?.blocks || [];
+  const heroBlock = blocksList.find(b => b.blockType === 'inner_page_hero')?.data || {};
+  const sidebarCategories = blocksList.find(b => b.blockType === 'sidebar_categories')?.data || {};
+  const sidebarResources = blocksList.find(b => b.blockType === 'sidebar_resources')?.data || {};
+  const sidebarTrending = blocksList.find(b => b.blockType === 'sidebar_trending')?.data || {};
+  
+  const cats = sidebarCategories.categories || [];
   const filteredItems = items.filter(p => !selectedCat || (p.subcategory || '').toUpperCase() === selectedCat.toUpperCase());
 
   if (loading) return <div className="min-h-screen flex items-center justify-center text-sm-blue font-bold tracking-widest uppercase">Loading Digital Infrastructure...</div>;
@@ -37,20 +37,29 @@ const DigitalInfra = () => {
         {/* MODERN TECH HERO */}
         <section className="pt-4 pb-6 grid grid-cols-1 md:grid-cols-12 gap-3 items-stretch">
            <div className="md:col-span-4 bg-[#0A0A0A] rounded-[25px] p-8 text-white flex flex-col justify-center border border-gray-800 shadow-xl relative overflow-hidden group min-h-[400px]">
+              <CMSMedia 
+                mediaType={heroBlock.mediaType} 
+                mediaUrl={heroBlock.mediaUrl} 
+                fallbackImg={heroBlock.img} 
+                className="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:opacity-40 transition-all duration-1000 brightness-50"
+              />
               <div className="absolute top-0 right-0 w-48 h-48 bg-sm-blue/20 rounded-full blur-[80px] -mr-20 -mt-20 opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="px-3 py-1 bg-sm-blue text-white font-black rounded-full text-[8px] uppercase tracking-[0.2em] mb-4 w-fit scale-90 relative z-10">
-                 <Zap size={12} className="inline mr-2" /> Digital Transformation 2025
+                 <Zap size={12} className="inline mr-2" /> {heroBlock.badge || "Digital Transformation 2025"}
               </div>
-              <h1 className="text-4xl lg:text-5xl font-black font-heading leading-tight mb-4 tracking-tighter uppercase relative z-10">
-                 Future <br/> <span className="text-sm-blue italic font-serif lowercase tracking-normal">is</span> <br/> Digital.
-              </h1>
+              <h1 className="text-4xl lg:text-5xl font-black font-heading leading-tight mb-4 tracking-tighter uppercase relative z-10" dangerouslySetInnerHTML={{ __html: heroBlock.titleHtml || "Future <br/> <span className=\"text-sm-blue italic font-serif lowercase tracking-normal\">is</span> <br/> Digital." }} />
               <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest max-w-xs leading-loose relative z-10">
-                 Deploying cutting-edge Ed-Tech and campus-wide smart infrastructure.
+                 {heroBlock.subtitle || "Deploying cutting-edge Ed-Tech and campus-wide smart infrastructure."}
               </p>
            </div>
            
            <div className="md:col-span-8 rounded-[25px] overflow-hidden relative shadow-lg group border border-gray-100 min-h-[400px]">
-              <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc51?w=1200&q=80" className="w-full h-full object-cover brightness-90 transition-all duration-700 hover:scale-110" alt="Tech" />
+              <CMSMedia 
+                mediaType={heroBlock.mediaType} 
+                mediaUrl={heroBlock.mediaUrl} 
+                fallbackImg={heroBlock.img || "https://images.unsplash.com/photo-1558494949-ef010cbdcc51?w=1200&q=80"}
+                className="w-full h-full object-cover brightness-90 transition-all duration-700 hover:scale-110"
+              />
               <div className="absolute inset-0 bg-blue-900/10 group-hover:bg-transparent transition-all" />
               <div className="absolute bottom-8 left-8 p-6 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 text-white max-w-md hidden lg:block">
                  <p className="text-[11px] font-black uppercase tracking-widest mb-2 opacity-60">Success Metric</p>

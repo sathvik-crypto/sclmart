@@ -5,6 +5,7 @@ import { getProducts } from '../services/api';
 import { Link } from 'react-router-dom';
 import { Palette, Compass, Pencil, Lightbulb, Layout, ArrowRight, ArrowUpRight, Eye, Stars, Download, Layers } from 'lucide-react';
 import InlineQuickView from '../components/InlineQuickView';
+import CMSMedia from '../components/ui/CMSMedia';
 
 const categories = [
   { id: 'all', name: 'COLOR SCHEMES', icon: <Palette size={24} /> },
@@ -37,14 +38,13 @@ const SchoolDesigns = () => {
     });
   }, []);
 
-  useEffect(() => {
-    const cats = blocks?.sidebar_categories?.categories || [];
-    if (cats.length > 0) {
-      setSelectedCat(cats[0]);
-    }
-  }, [blocks]);
-
-  const cats = blocks?.sidebar_categories?.categories || [];
+  const blocksList = blocks?.blocks || [];
+  const heroBlock = blocksList.find(b => b.blockType === 'inner_page_hero')?.data || {};
+  const sidebarCategories = blocksList.find(b => b.blockType === 'sidebar_categories')?.data || {};
+  const sidebarResources = blocksList.find(b => b.blockType === 'sidebar_resources')?.data || {};
+  const sidebarTrending = blocksList.find(b => b.blockType === 'sidebar_trending')?.data || {};
+  
+  const cats = sidebarCategories.categories || [];
   const filteredItems = items.filter(p => !selectedCat || (p.subcategory || '').toUpperCase() === selectedCat.toUpperCase());
 
   if (loading) return <div className="min-h-screen flex items-center justify-center text-sm-blue font-bold tracking-widest uppercase">Loading School Designs...</div>;
@@ -56,16 +56,20 @@ const SchoolDesigns = () => {
         {/* MODERN BESPOKE HERO - COMPACT PACKED */}
         <section className="pt-4 pb-6 flex flex-col lg:flex-row gap-4 items-stretch">
            {/* TEXT BLOCK - LEFT */}
-           <div className="flex-1 bg-white rounded-[25px] p-8 flex flex-col justify-center border border-gray-100 shadow-sm relative overflow-hidden">
+           <div className="flex-1 bg-white rounded-[25px] p-8 flex flex-col justify-center border border-gray-100 shadow-sm relative overflow-hidden group">
+              <CMSMedia 
+                mediaType={heroBlock.mediaType} 
+                mediaUrl={heroBlock.mediaUrl} 
+                fallbackImg={heroBlock.img} 
+                className="absolute inset-0 w-full h-full object-cover opacity-5 group-hover:opacity-10 transition-all duration-1000"
+              />
               <div className="absolute top-0 right-0 w-32 h-32 bg-sm-blue/5 rounded-full blur-3xl -mr-16 -mt-16" />
-              <div className="px-3 py-1 bg-gray-900 text-white font-black rounded-full text-[8px] uppercase tracking-[0.2em] mb-6 w-fit scale-90">
-                 <Stars size={12} className="inline mr-2" /> Design Studio 2024
+              <div className="px-3 py-1 bg-gray-900 text-white font-black rounded-full text-[8px] uppercase tracking-[0.2em] mb-6 w-fit scale-90 relative z-10">
+                 <Stars size={12} className="inline mr-2" /> {heroBlock.badge || "Design Studio 2024"}
               </div>
-              <h1 className="text-4xl md:text-5xl font-black font-heading leading-none mb-6 tracking-tighter text-gray-900 uppercase">
-                 Imagine <br/> <span className="text-sm-blue italic font-serif lowercase tracking-normal">the</span> <br/> Infinite.
-              </h1>
-              <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest max-w-xs leading-loose">
-                 We create non-linear, adaptive spaces where students explore, discover, and flourish.
+              <h1 className="text-4xl md:text-5xl font-black font-heading leading-none mb-6 tracking-tighter text-gray-900 uppercase relative z-10" dangerouslySetInnerHTML={{ __html: heroBlock.titleHtml || "Imagine <br/> <span className=\"text-sm-blue italic font-serif lowercase tracking-normal\">the</span> <br/> Infinite." }} />
+              <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest max-w-xs leading-loose relative z-10">
+                 {heroBlock.subtitle || "We create non-linear, adaptive spaces where students explore, discover, and flourish."}
               </p>
            </div>
 

@@ -1,6 +1,7 @@
 // src/pages/Guides.jsx
 import { BookOpen, Award, Shield, Layers } from 'lucide-react';
 import { useCMSPage } from '../hooks/useCMSBlock';
+import CMSMedia from '../components/ui/CMSMedia';
 
 const DEFAULT_CONTENT = {
   hero: {
@@ -38,15 +39,20 @@ const Guides = () => {
     <main className="min-h-screen bg-white pt-16 pb-10">
       <div className="max-w-7xl mx-auto px-4">
         
-        {/* HORIZONTAL HUB HERO */}
         <section className="pt-4 pb-6 flex flex-col gap-4">
            {/* LARGE WIDE STORY BLOCK */}
            <div className="bg-gray-50 rounded-[25px] p-10 flex flex-col items-center text-center border border-gray-100 shadow-sm relative overflow-hidden group">
-              <div className="px-3 py-1 bg-sm-blue text-white font-black rounded-full text-[8px] uppercase tracking-[0.2em] mb-4 w-fit scale-90">
+              <CMSMedia 
+                mediaType={d.hero?.mediaType} 
+                mediaUrl={d.hero?.mediaUrl} 
+                fallbackImg={null} 
+                className="absolute inset-0 w-full h-full object-cover opacity-5 group-hover:opacity-10 transition-all duration-1000"
+              />
+              <div className="px-3 py-1 bg-sm-blue text-white font-black rounded-full text-[8px] uppercase tracking-[0.2em] mb-4 w-fit scale-90 relative z-10">
                  <BookOpen size={12} className="inline mr-2" /> {d.hero?.badge}
               </div>
-              <h1 className="text-4xl lg:text-6xl font-black font-heading leading-tight mb-4 tracking-tighter text-gray-900 uppercase max-w-2xl" dangerouslySetInnerHTML={{ __html: d.hero?.titleHtml }} />
-              <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest max-w-sm leading-loose">
+              <h1 className="text-4xl lg:text-6xl font-black font-heading leading-tight mb-4 tracking-tighter text-gray-900 uppercase max-w-2xl relative z-10" dangerouslySetInnerHTML={{ __html: d.hero?.titleHtml }} />
+              <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest max-w-sm leading-loose relative z-10">
                  {d.hero?.subtitle}
               </p>
            </div>

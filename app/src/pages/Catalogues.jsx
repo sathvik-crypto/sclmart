@@ -1,6 +1,7 @@
 // src/pages/Catalogues.jsx
 import { BookOpen, Download, ArrowUpRight, Layers } from 'lucide-react';
 import { useCMSPage } from '../hooks/useCMSBlock';
+import CMSMedia from '../components/ui/CMSMedia';
 
 const DEFAULT_CONTENT = {
   libraryHero: {
@@ -39,10 +40,15 @@ const Catalogues = () => {
     <main className="min-h-screen bg-white pt-16 pb-10">
       <div className="max-w-7xl mx-auto px-4">
         
-        {/* LIBRARY MOSAIC HERO */}
         <section className="pt-4 pb-6 grid grid-cols-1 md:grid-cols-12 gap-3 items-stretch">
            <div className="md:col-span-4 bg-gray-50 rounded-[25px] p-8 flex flex-col justify-center border border-gray-100 shadow-sm relative overflow-hidden group">
-              <div className="px-3 py-1 bg-sm-blue text-white font-black rounded-full text-[8px] uppercase tracking-[0.2em] mb-4 w-fit scale-90">
+              <CMSMedia 
+                mediaType={d.libraryHero?.mediaType} 
+                mediaUrl={d.libraryHero?.mediaUrl} 
+                fallbackImg={d.libraryHero?.img} 
+                className="absolute inset-0 w-full h-full object-cover opacity-10 group-hover:opacity-20 transition-all duration-1000"
+              />
+              <div className="px-3 py-1 bg-sm-blue text-white font-black rounded-full text-[8px] uppercase tracking-[0.2em] mb-4 w-fit scale-90 relative z-10">
                  <BookOpen size={12} className="inline mr-2 animate-pulse" /> {d.libraryHero?.badge || 'Catalogue'}
               </div>
               <h1 className="text-4xl lg:text-5xl font-black font-heading leading-tight mb-4 tracking-tighter text-gray-900 uppercase" dangerouslySetInnerHTML={{ __html: d.libraryHero?.titleHtml }} />

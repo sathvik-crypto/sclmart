@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Layout, Sparkles, Wind, Sun, Leaf, ArrowRight, ArrowUpRight, Eye, CheckCircle2, Award, Layers } from 'lucide-react';
 import InlineQuickView from '../components/InlineQuickView';
 import { useCMSPage } from '../hooks/useCMSBlock';
+import CMSMedia from '../components/ui/CMSMedia';
 
 const DEFAULT_CONTENT = {
   hero: {
@@ -52,11 +53,17 @@ const Environments = () => {
         <section className="pt-4 pb-6 grid grid-cols-1 md:grid-cols-6 lg:grid-cols-4 gap-3 items-stretch h-auto">
            {/* BIG TEXT BLOCK */}
            <div className="md:col-span-3 lg:col-span-2 bg-white rounded-[20px] p-8 flex flex-col justify-center border border-gray-300 shadow-sm relative overflow-hidden group min-h-[220px]">
-              <div className="px-3 py-1 bg-sm-blue text-white font-black rounded-full text-[8px] uppercase tracking-[0.2em] mb-4 w-fit scale-90">
+              <CMSMedia 
+                mediaType={d.hero?.mediaType} 
+                mediaUrl={d.hero?.mediaUrl} 
+                fallbackImg={d.heroImage} 
+                className="absolute inset-0 w-full h-full object-cover opacity-5 group-hover:opacity-10 transition-all duration-1000"
+              />
+              <div className="px-3 py-1 bg-sm-blue text-white font-black rounded-full text-[8px] uppercase tracking-[0.2em] mb-4 w-fit scale-90 relative z-10">
                  <Sparkles size={12} className="inline mr-2" /> {d.hero?.badge}
               </div>
-              <h1 className="text-4xl font-black font-heading leading-tight mb-4 tracking-tighter text-gray-900 uppercase" dangerouslySetInnerHTML={{ __html: d.hero?.titleHtml }} />
-              <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest max-w-xs leading-loose text-left">
+              <h1 className="text-4xl font-black font-heading leading-tight mb-4 tracking-tighter text-gray-900 uppercase relative z-10" dangerouslySetInnerHTML={{ __html: d.hero?.titleHtml }} />
+              <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest max-w-xs leading-loose text-left relative z-10">
                  {d.hero?.subtitle}
               </p>
            </div>
@@ -70,9 +77,13 @@ const Environments = () => {
               </div>
            </div>
 
-           {/* IMAGE CARD - PACKED */}
            <div className="hidden lg:block lg:col-span-1 bg-gray-100 rounded-[20px] overflow-hidden relative shadow-sm border border-gray-100">
-              <img src={d.heroImage} className="w-full h-full object-cover brightness-90 transition-all duration-700" alt="Space" />
+              <CMSMedia 
+                mediaType={d.hero?.mediaType} 
+                mediaUrl={d.hero?.mediaUrl} 
+                fallbackImg={d.heroImage} 
+                className="w-full h-full object-cover brightness-90 transition-all duration-700 hover:scale-110"
+              />
            </div>
 
            {/* SUB-BLOCKS */}

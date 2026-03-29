@@ -1,6 +1,6 @@
-// src/pages/Corporate.jsx
-import { Link } from 'react-router-dom';
 import { Target, Users, Rocket, Award, ShieldCheck, Heart, ArrowUpRight, CheckCircle2, LayoutGrid, Sparkles, Building2, Briefcase, Globe } from 'lucide-react';
+import { useCMSPage } from '../hooks/useCMSBlock';
+import CMSMedia from '../components/ui/CMSMedia';
 
 const partners = [
   { name: 'KVS Schools', cat: 'Central Govt', img: 'https://images.unsplash.com/photo-1544640808-32ca72ac7f37?w=400&q=80' },
@@ -9,6 +9,12 @@ const partners = [
 ];
 
 const Corporate = () => {
+  const { blocks, loading } = useCMSPage('corporate');
+  const blocksList = blocks?.blocks || [];
+  const heroBlock = blocksList.find(b => b.blockType === 'inner_page_hero')?.data || {};
+
+  if (loading) return <div className="min-h-screen flex items-center justify-center text-sm-blue font-bold tracking-widest uppercase">Loading Corporate...</div>;
+
   return (
     <main className="min-h-screen bg-white pt-24 pb-20 overflow-hidden relative">
       {/* PROFESSIONAL BENTO HERO (Unique for Corporate) */}
@@ -17,14 +23,18 @@ const Corporate = () => {
             
             {/* Main Statement Bento (Screenshot 2 Inspired) */}
             <div className="lg:col-span-8 lg:row-span-4 bg-gray-900 rounded-[60px] p-12 lg:p-20 text-white relative overflow-hidden group shadow-3xl">
+               <CMSMedia 
+                 mediaType={heroBlock.mediaType} 
+                 mediaUrl={heroBlock.mediaUrl} 
+                 fallbackImg={heroBlock.img} 
+                 className="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:opacity-40 transition-all duration-1000"
+               />
                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-sm-blue opacity-10 rounded-full blur-[100px] group-hover:scale-110 transition-transform" />
                <div className="relative z-10 flex flex-col h-full h-full">
-                  <span className="inline-block px-5 py-2 bg-sm-blue text-white font-black rounded-full mb-10 text-[10px] uppercase tracking-widest shadow-lg">Enterprise Solutions</span>
-                  <h1 className="text-5xl md:text-8xl font-black font-heading leading-[0.85] tracking-tighter uppercase mb-12">
-                     Strategic <br/> Infrastructure <br/> <span className="text-sm-blue italic font-serif">Partnership.</span>
-                  </h1>
+                  <span className="inline-block px-5 py-2 bg-sm-blue text-white font-black rounded-full mb-10 text-[10px] uppercase tracking-widest shadow-lg">{heroBlock.badge || "Enterprise Solutions"}</span>
+                  <h1 className="text-5xl md:text-8xl font-black font-heading leading-[0.85] tracking-tighter uppercase mb-12" dangerouslySetInnerHTML={{ __html: heroBlock.titleHtml || "Strategic <br/> Infrastructure <br/> <span className=\"text-sm-blue italic font-serif\">Partnership.</span>" }} />
                   <p className="text-white/40 text-lg md:text-xl max-w-xl leading-relaxed mb-auto font-medium uppercase tracking-widest">
-                     We don't just supply; we strategize. Our corporate division handles institutional procurement for high-net school networks across 22 states.
+                     {heroBlock.subtitle || "We don't just supply; we strategize. Our corporate division handles institutional procurement for high-net school networks across 22 states."}
                   </p>
                   <div className="mt-12">
                      <button className="px-10 py-5 bg-white text-gray-900 font-black rounded-3xl hover:bg-sm-blue hover:text-white transition-all shadow-xl uppercase tracking-widest text-[11px] active:scale-95 flex items-center gap-3">

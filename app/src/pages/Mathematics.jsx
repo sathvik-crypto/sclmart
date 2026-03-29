@@ -5,6 +5,7 @@ import { getProducts } from '../services/api';
 import { Link } from 'react-router-dom';
 import { Calculator, Triangle, Ruler, Hash, Circle, ArrowRight, ArrowUpRight, Download, Stars, Eye, FileText, CheckCircle2, Layers } from 'lucide-react';
 import InlineQuickView from '../components/InlineQuickView';
+import CMSMedia from '../components/ui/CMSMedia';
 
 const mathItems = [
   { id: 1, title: 'Geometric Shapes Kit', cat: 'Lab Equipment', img: 'https://images.unsplash.com/photo-1596496181871-9681eacf9764?w=800&q=80', badge: 'Must Have' },
@@ -27,14 +28,13 @@ const Mathematics = () => {
     });
   }, []);
 
-  useEffect(() => {
-    const cats = blocks?.sidebar_categories?.categories || [];
-    if (cats.length > 0) {
-      setSelectedCat(cats[0]);
-    }
-  }, [blocks]);
-
-  const cats = blocks?.sidebar_categories?.categories || [];
+  const blocksList = blocks?.blocks || [];
+  const heroBlock = blocksList.find(b => b.blockType === 'inner_page_hero')?.data || {};
+  const sidebarCategories = blocksList.find(b => b.blockType === 'sidebar_categories')?.data || {};
+  const sidebarResources = blocksList.find(b => b.blockType === 'sidebar_resources')?.data || {};
+  const sidebarTrending = blocksList.find(b => b.blockType === 'sidebar_trending')?.data || {};
+  
+  const cats = sidebarCategories.categories || [];
   const filteredItems = items.filter(p => !selectedCat || (p.subcategory || '').toUpperCase() === selectedCat.toUpperCase());
 
   if (loading) return <div className="min-h-screen flex items-center justify-center text-sm-blue font-bold tracking-widest uppercase">Loading Mathematics...</div>;
@@ -44,18 +44,21 @@ const Mathematics = () => {
     <main className="min-h-screen bg-white pt-6 pb-4">
       <div className="max-w-7xl mx-auto px-4">
         
-        {/* MATHEMATICAL SYMMETRY HERO */}
         <section className="pt-4 pb-6 grid grid-cols-1 lg:grid-cols-12 gap-3 items-stretch">
            <div className="lg:col-span-12 bg-gray-900 rounded-[30px] p-12 text-white flex flex-col justify-center border border-gray-800 shadow-2xl relative overflow-hidden group min-h-[400px]">
+              <CMSMedia 
+                mediaType={heroBlock.mediaType} 
+                mediaUrl={heroBlock.mediaUrl} 
+                fallbackImg={heroBlock.img || "https://images.unsplash.com/photo-1596496181871-9681eacf9764?w=1000&q=80"}
+                className="absolute inset-0 w-full h-full object-cover brightness-50 opacity-40 group-hover:opacity-60 transition-all duration-1000"
+              />
               <div className="absolute top-0 right-0 w-96 h-96 bg-sm-blue/10 rounded-full blur-[120px] -mr-48 -mt-48 opacity-60" />
               <div className="px-4 py-1.5 bg-sm-blue text-white font-black rounded-full text-[9px] uppercase tracking-[0.2em] mb-6 w-fit scale-90 relative z-10">
-                 <Hash size={12} className="inline mr-2" /> Logic & Symmetry 2025
+                 <Hash size={12} className="inline mr-2" /> {heroBlock.badge || "Logic & Symmetry 2025"}
               </div>
-              <h1 className="text-5xl lg:text-7xl font-black font-heading leading-none mb-6 tracking-tighter uppercase relative z-10">
-                 Play <br/> <span className="text-sm-blue italic font-serif lowercase tracking-normal">with</span> <br/> Numbers.
-              </h1>
+              <h1 className="text-5xl lg:text-7xl font-black font-heading leading-none mb-6 tracking-tighter uppercase relative z-10" dangerouslySetInnerHTML={{ __html: heroBlock.titleHtml || "Play <br/> <span className=\"text-sm-blue italic font-serif lowercase tracking-normal\">with</span> <br/> Numbers." }} />
               <p className="text-gray-400 text-[11px] font-bold uppercase tracking-widest max-w-md leading-loose relative z-10">
-                 We create gamified math labs where abstract concepts become tangible experiences through interactive equipment.
+                 {heroBlock.subtitle || "We create gamified math labs where abstract concepts become tangible experiences through interactive equipment."}
               </p>
            </div>
         </section>

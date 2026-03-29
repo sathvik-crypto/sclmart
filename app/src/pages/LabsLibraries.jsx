@@ -5,6 +5,7 @@ import { getProducts } from '../services/api';
 import { Link } from 'react-router-dom';
 import { FlaskConical, Beaker, Library, Microscope, Archive, ArrowRight, ArrowUpRight, Download, Stars, Eye, FileText, CheckCircle2, Layers } from 'lucide-react';
 import InlineQuickView from '../components/InlineQuickView';
+import CMSMedia from '../components/ui/CMSMedia';
 
 const compositeItems = [
   { id: 1, title: 'Modular Lab Bench', cat: 'Science Labs', img: 'https://images.unsplash.com/photo-1581093588401-fbb62a02f120?w=800&q=80', badge: 'Safety Plus' },
@@ -27,14 +28,13 @@ const LabsLibraries = () => {
     });
   }, []);
 
-  useEffect(() => {
-    const cats = blocks?.sidebar_categories?.categories || [];
-    if (cats.length > 0) {
-      setSelectedCat(cats[0]);
-    }
-  }, [blocks]);
-
-  const cats = blocks?.sidebar_categories?.categories || [];
+  const blocksList = blocks?.blocks || [];
+  const heroBlock = blocksList.find(b => b.blockType === 'inner_page_hero')?.data || {};
+  const sidebarCategories = blocksList.find(b => b.blockType === 'sidebar_categories')?.data || {};
+  const sidebarResources = blocksList.find(b => b.blockType === 'sidebar_resources')?.data || {};
+  const sidebarTrending = blocksList.find(b => b.blockType === 'sidebar_trending')?.data || {};
+  
+  const cats = sidebarCategories.categories || [];
   const filteredItems = items.filter(p => !selectedCat || (p.subcategory || '').toUpperCase() === selectedCat.toUpperCase());
 
   if (loading) return <div className="min-h-screen flex items-center justify-center text-sm-blue font-bold tracking-widest uppercase">Loading Composite Skill Labs...</div>;
@@ -44,18 +44,21 @@ const LabsLibraries = () => {
     <main className="min-h-screen bg-gray-50 pt-6 pb-4">
       <div className="max-w-7xl mx-auto px-4">
         
-        {/* COMPREHENSIVE HUB HERO */}
         <section className="pt-4 pb-6 grid grid-cols-1 lg:grid-cols-12 gap-3 items-stretch">
            <div className="lg:col-span-12 bg-white rounded-[30px] p-12 flex flex-col justify-center border border-gray-100 shadow-sm relative overflow-hidden group min-h-[400px]">
+              <CMSMedia 
+                mediaType={heroBlock.mediaType} 
+                mediaUrl={heroBlock.mediaUrl} 
+                fallbackImg={heroBlock.img || "https://images.unsplash.com/photo-1541829070764-84a7d30dee62?w=1000&q=80"}
+                className="absolute inset-0 w-full h-full object-cover brightness-110 opacity-10 group-hover:opacity-20 transition-all duration-1000"
+              />
               <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/5 rounded-full blur-[120px] -mr-48 -mt-48 opacity-60" />
               <div className="px-4 py-1.5 bg-emerald-600 text-white font-black rounded-full text-[9px] uppercase tracking-[0.2em] mb-6 w-fit scale-90 relative z-10">
-                 <FlaskConical size={12} className="inline mr-2" /> Research & Literacy 2025
+                 <FlaskConical size={12} className="inline mr-2" /> {heroBlock.badge || "Research & Literacy 2025"}
               </div>
-              <h1 className="text-5xl lg:text-7xl font-black font-heading leading-none mb-6 tracking-tighter text-gray-900 uppercase relative z-10">
-                 Bento <br/> <span className="text-emerald-600 italic font-serif lowercase tracking-normal">of</span> <br/> Knowledge.
-              </h1>
+              <h1 className="text-5xl lg:text-7xl font-black font-heading leading-none mb-6 tracking-tighter text-gray-900 uppercase relative z-10" dangerouslySetInnerHTML={{ __html: heroBlock.titleHtml || "Bento <br/> <span className=\"text-emerald-600 italic font-serif lowercase tracking-normal\">of</span> <br/> Knowledge." }} />
               <p className="text-gray-400 text-[11px] font-bold uppercase tracking-widest max-w-sm leading-loose relative z-10">
-                 Integrated solutions for composite skill labs and futuristic digital libraries in one unified platform.
+                 {heroBlock.subtitle || "Integrated solutions for composite skill labs and futuristic digital libraries in one unified platform."}
               </p>
            </div>
         </section>

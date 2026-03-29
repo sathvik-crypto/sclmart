@@ -1,6 +1,6 @@
-// src/pages/Manufacturing.jsx
-import { Link } from 'react-router-dom';
 import { Settings, Shield, Zap, Box, Factory, Truck, CheckCircle2, Award, ArrowRight, ArrowUpRight, Download, Eye, Layers, Activity } from 'lucide-react';
+import { useCMSPage } from '../hooks/useCMSBlock';
+import CMSMedia from '../components/ui/CMSMedia';
 
 const stats = [
   { label: 'AREA', value: '50k+', u: 'SQFT' },
@@ -10,6 +10,12 @@ const stats = [
 ];
 
 const Manufacturing = () => {
+  const { blocks, loading } = useCMSPage('manufacturing');
+  const blocksList = blocks?.blocks || [];
+  const heroBlock = blocksList.find(b => b.blockType === 'inner_page_hero')?.data || {};
+
+  if (loading) return <div className="min-h-screen flex items-center justify-center text-sm-blue font-bold tracking-widest uppercase">Loading Manufacturing...</div>;
+
   return (
     <main className="min-h-screen bg-gray-50 pt-16 pb-10">
       <div className="max-w-7xl mx-auto px-4">
@@ -19,20 +25,19 @@ const Manufacturing = () => {
            {/* STRIP 1 - THE STORY & STATS */}
            <div className="flex flex-col lg:flex-row gap-3 items-stretch h-auto lg:h-[300px]">
             <div className="flex-1 bg-[#1A1A1A] rounded-[20px] p-8 text-white relative overflow-hidden group border border-gray-800 shadow-2xl">
-               <img 
-                 src="https://images.unsplash.com/photo-1537462715879-360eeb61a0ad?w=1200&q=80" 
+               <CMSMedia 
+                 mediaType={heroBlock.mediaType} 
+                 mediaUrl={heroBlock.mediaUrl} 
+                 fallbackImg={heroBlock.img || "https://images.unsplash.com/photo-1537462715879-360eeb61a0ad?w=1200&q=80"}
                  className="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:scale-110 transition-transform duration-[3000ms] z-0"
-                 alt=""
                />
                <div className="relative z-10">
                  <div className="px-3 py-1 bg-emerald-500/10 text-emerald-500 font-black rounded-full text-[8px] uppercase tracking-[0.2em] mb-4 w-fit border border-emerald-500/20">
-                    <Factory size={12} className="inline mr-2 animate-pulse" /> Precision 4.0
+                    <Factory size={12} className="inline mr-2 animate-pulse" /> {heroBlock.badge || "Precision 4.0"}
                  </div>
-                 <h1 className="text-4xl font-black font-heading leading-tight mb-4 tracking-tighter uppercase">
-                    Precision <br/> <span className="text-emerald-500 italic font-serif lowercase tracking-normal">and</span> Scale.
-                 </h1>
+                 <h1 className="text-4xl font-black font-heading leading-tight mb-4 tracking-tighter uppercase" dangerouslySetInnerHTML={{ __html: heroBlock.titleHtml || 'Precision <br/> <span className="text-emerald-500 italic font-serif lowercase tracking-normal">and</span> <br/> Scale.' }} />
                  <p className="text-white/40 text-[9px] font-bold uppercase tracking-widest max-w-xs leading-loose">
-                    Combining robotic precision with artisan craftsmanship for institutional excellence.
+                    {heroBlock.subtitle || "Combining robotic precision with artisan craftsmanship for institutional excellence."}
                  </p>
                </div>
                <div className="absolute top-8 right-8 flex flex-col gap-3 z-20">
