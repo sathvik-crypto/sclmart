@@ -105,11 +105,11 @@ router.post('/standardize', auth, adminOnly, async (req, res) => {
       design:      ['inner_page_hero', 'sidebar_categories', 'sidebar_resources', 'sidebar_trending', 'cta_whatsapp'],
       manufacturing:['inner_page_hero', 'sidebar_resources', 'sidebar_trending', 'cta_whatsapp', 'text_content'],
       corporate:   ['inner_page_hero', 'sidebar_resources', 'sidebar_trending', 'cta_whatsapp', 'text_content'],
-      environments:['environments_page_content'],
-      catalogues:  ['catalogues_page_content', 'catalogues_list'],
-      guides:      ['guides_page_content', 'guides_list'],
-      aboutus:     ['about_hero', 'stats', 'mission_vision'],
-      'contact-us':['contact_page_content', 'contact_info'],
+      environments:['environments_page_content', 'sidebar_resources', 'sidebar_trending', 'cta_whatsapp'],
+      catalogues:  ['catalogues_page_content', 'catalogues_list', 'sidebar_resources', 'sidebar_trending', 'cta_whatsapp'],
+      guides:      ['guides_page_content', 'guides_list', 'sidebar_resources', 'sidebar_trending', 'cta_whatsapp'],
+      aboutus:     ['about_hero', 'stats', 'mission_vision', 'about_philosophy', 'journey', 'sidebar_resources', 'sidebar_trending'],
+      'contact-us':['contact_page_content', 'contact_info', 'sidebar_resources', 'sidebar_trending'],
     };
 
     const allSlugs = Object.keys(PAGE_ALLOWED_BLOCKS);

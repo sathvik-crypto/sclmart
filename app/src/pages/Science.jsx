@@ -7,6 +7,7 @@ import { FlaskConical, Beaker, Atom, Microscope, Dna, Zap, ArrowRight, ArrowUpRi
 import InlineQuickView from '../components/InlineQuickView';
 import CMSMedia from '../components/ui/CMSMedia';
 import CatalogueCard from '../components/CatalogueCard';
+import SidebarWidget from '../components/SidebarWidget';
 
 const Science = () => {
   const { blocks, loading } = useCMSPage('science');
@@ -75,13 +76,18 @@ const Science = () => {
         <section className="py-8 border-t border-gray-100 flex flex-col lg:flex-row gap-8">
            <aside className="lg:w-[240px] flex-shrink-0">
               <div className="sticky top-24 space-y-2">
-                 <div className="mb-6">
+                 <div className="mb-6 px-4">
                     <h3 className="text-[10px] font-black uppercase text-gray-400 tracking-[0.3em] mb-4">SCIENCE CORE</h3>
-                    <div className="w-8 h-1 bg-emerald-500 rounded-full" />
+                    <div className="w-8 h-1 bg-sm-blue rounded-full" />
                  </div>
                  {cats.map((cat, i) => (
-                    <button key={i} onClick={() => setSelectedCat(cat)} className={`w-full text-left px-4 py-3 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${selectedCat === cat ? 'bg-emerald-600 text-white shadow-lg' : 'text-gray-500 hover:bg-emerald-50 hover:text-emerald-900'}`}>{cat}</button>
+                    <button key={i} onClick={() => setSelectedCat(cat)} className={`w-full text-left px-4 py-3 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${selectedCat === cat ? 'bg-gray-900 text-white shadow-lg' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'}`}>{cat}</button>
                  ))}
+
+                 <div className="pt-6">
+                    <SidebarWidget title="TRENDING" items={sidebarTrending?.items} type="trending" />
+                    <SidebarWidget title="RESOURCES" items={sidebarResources?.items} type="resources" />
+                 </div>
               </div>
            </aside>
 

@@ -5,6 +5,7 @@ import InlineQuickView from '../components/InlineQuickView';
 import { useCMSPage } from '../hooks/useCMSBlock';
 import CMSMedia from '../components/ui/CMSMedia';
 import CatalogueCard from '../components/CatalogueCard';
+import SidebarWidget from '../components/SidebarWidget';
 
 const DEFAULT_CONTENT = {
   hero: {
@@ -41,64 +42,167 @@ const ICONS = { Leaf, Wind, Sun, Layers };
 
 const Environments = () => {
   const [selectedItem, setSelectedItem] = useState(null);
-  const { blocks, loading } = useCMSPage('environments');
+    const { blocks, loading } = useCMSPage('environments');
+  const sidebarResources = blocks?.sidebar_resources || {};
+  const sidebarTrending = blocks?.sidebar_trending || {};
   const d = blocks?.environments_page_content || DEFAULT_CONTENT;
 
   if (loading) return <div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-sm-blue"></div></div>;
+
+    if (loading) return <div className="min-h-screen flex items-center justify-center text-sm-blue font-bold tracking-widest uppercase">Loading Environments...</div>;
 
   return (
     <main className="min-h-screen bg-gray-50 pt-8 pb-4">
       <div className="max-w-7xl mx-auto px-4">
         
-        {/* BENTO HIGH-DENSITY HERO */}
-        <section className="pt-2 pb-6 grid grid-cols-1 md:grid-cols-6 lg:grid-cols-4 gap-3 items-stretch h-auto">
-           {/* BIG TEXT BLOCK */}
-           <div className="md:col-span-3 lg:col-span-2 bg-white rounded-[20px] p-8 flex flex-col justify-center border border-gray-300 shadow-sm relative overflow-hidden group min-h-[220px]">
-              <CMSMedia 
-                mediaType={d.hero?.mediaType} 
-                mediaUrl={d.hero?.mediaUrl} 
-                fallbackImg={d.heroImage} 
-                className="absolute inset-0 w-full h-full object-cover opacity-5 group-hover:opacity-10 transition-all duration-1000"
-              />
-              <div className="px-3 py-1 bg-sm-blue text-white font-black rounded-full text-[8px] uppercase tracking-[0.2em] mb-4 w-fit scale-90 relative z-10">
-                 <Sparkles size={12} className="inline mr-2" /> {d.hero?.badge}
+        <div className="flex flex-col lg:flex-row gap-8">
+           {/* Sidebar Widget Sync */}
+           <aside className="lg:w-[240px] flex-shrink-0">
+              <div className="sticky top-24 space-y-6">
+                 <SidebarWidget title="TRENDING" items={sidebarTrending?.items} type="trending" />
+                 <SidebarWidget title="RESOURCES" items={sidebarResources?.items} type="resources" />
               </div>
-              <h1 className="text-4xl font-black font-heading leading-tight mb-4 tracking-tighter text-gray-900 uppercase relative z-10" dangerouslySetInnerHTML={{ __html: d.hero?.titleHtml }} />
-              <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest max-w-xs leading-loose text-left relative z-10">
-                 {d.hero?.subtitle}
-              </p>
-           </div>
+           </aside>
 
-           {/* ACTION CARD - BLACK */}
-           <div className="md:col-span-3 lg:col-span-1 bg-gray-900 rounded-[20px] p-6 text-white flex flex-col justify-between group overflow-hidden relative border border-gray-800 shadow-xl">
-              <h3 className="text-[9px] font-black uppercase tracking-[0.2em] leading-relaxed text-sm-blue" dangerouslySetInnerHTML={{ __html: d.actionCard?.titleHtml }} />
-              <div className="flex items-center justify-between mt-6">
-                 <button className="px-4 py-2 bg-sm-blue text-white font-black rounded-full text-[7px] uppercase tracking-widest active:scale-95 transition-all shadow-lg active:shadow-blue-500/20">{d.actionCard?.btnText}</button>
-                 <ArrowUpRight className="text-white/20 group-hover:text-sm-blue transition-colors" size={20} />
-              </div>
-           </div>
+           {/* Main Content Area */}
+           <div className="flex-grow min-w-0">
+             {/* BENTO HIGH-DENSITY HERO */}
+             <section className="pt-2 pb-6 grid grid-cols-1 md:grid-cols-6 lg:grid-cols-4 gap-3 items-stretch h-auto">
+                {/* BIG TEXT BLOCK */}
+                <div className="md:col-span-3 lg:col-span-2 bg-white rounded-[20px] p-8 flex flex-col justify-center border border-gray-300 shadow-sm relative overflow-hidden group min-h-[220px]">
+                   <CMSMedia 
+                     mediaType={d.hero?.mediaType} 
+                     mediaUrl={d.hero?.mediaUrl} 
+                     fallbackImg={d.heroImage} 
+                     className="absolute inset-0 w-full h-full object-cover opacity-5 group-hover:opacity-10 transition-all duration-1000"
+                   />
+                   <div className="px-3 py-1 bg-sm-blue text-white font-black rounded-full text-[8px] uppercase tracking-[0.2em] mb-4 w-fit scale-90 relative z-10">
+                      <Sparkles size={12} className="inline mr-2" /> {d.hero?.badge}
+                   </div>
+                   <h1 className="text-4xl font-black font-heading leading-tight mb-4 tracking-tighter text-gray-900 uppercase relative z-10" dangerouslySetInnerHTML={{ __html: d.hero?.titleHtml }} />
+                   <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest max-w-xs leading-loose text-left relative z-10">
+                      {d.hero?.subtitle}
+                   </p>
+                </div>
 
-           <div className="hidden lg:block lg:col-span-1 bg-gray-100 rounded-[20px] overflow-hidden relative shadow-sm border border-gray-100">
-              <CMSMedia 
-                mediaType={d.hero?.mediaType} 
-                mediaUrl={d.hero?.mediaUrl} 
-                fallbackImg={d.heroImage} 
-                className="w-full h-full object-cover brightness-90 transition-all duration-700 hover:scale-110"
-              />
-           </div>
+                {/* ACTION CARD - BLACK */}
+                <div className="md:col-span-3 lg:col-span-1 bg-gray-900 rounded-[20px] p-6 text-white flex flex-col justify-between group overflow-hidden relative border border-gray-800 shadow-xl">
+                   <h3 className="text-[9px] font-black uppercase tracking-[0.2em] leading-relaxed text-sm-blue" dangerouslySetInnerHTML={{ __html: d.actionCard?.titleHtml }} />
+                   <div className="flex items-center justify-between mt-6">
+                      <button className="px-4 py-2 bg-sm-blue text-white font-black rounded-full text-[7px] uppercase tracking-widest active:scale-95 transition-all shadow-lg active:shadow-blue-500/20">{d.actionCard?.btnText}</button>
+                      <ArrowUpRight className="text-white/20 group-hover:text-sm-blue transition-colors" size={20} />
+                   </div>
+                </div>
 
-           {/* SUB-BLOCKS */}
-           {(d.subBlocks || []).map((sb, i) => {
-             const Icon = ICONS[sb.icon] || Sparkles;
-             return (
-               <div key={i} className="md:col-span-2 lg:col-span-1 bg-white rounded-[20px] p-6 border border-gray-300 shadow-sm flex items-center justify-between group hover:border-sm-blue transition-colors">
-                  <div className="flex flex-col gap-1">
-                     <span className="text-[12px] font-black text-gray-900 uppercase tracking-tighter">{sb.title}</span>
-                     <span className="text-[7px] font-black text-gray-400 uppercase tracking-widest">{sb.subtitle}</span>
-                  </div>
-                  <Icon className="text-blue-300 group-hover:text-sm-blue transition-colors" size={24} />
-               </div>
-             );
+                <div className="hidden lg:block lg:col-span-1 bg-gray-100 rounded-[20px] overflow-hidden relative shadow-sm border border-gray-100">
+                   <CMSMedia 
+                     mediaType={d.hero?.mediaType} 
+                     mediaUrl={d.hero?.mediaUrl} 
+                     fallbackImg={d.heroImage} 
+                     className="w-full h-full object-cover brightness-90 transition-all duration-700 hover:scale-110"
+                   />
+                </div>
+
+                {/* SUB-BLOCKS */}
+                {(d.subBlocks || []).map((sb, i) => {
+                  const Icon = ICONS[sb.icon] || Sparkles;
+                  return (
+                    <div key={i} className="md:col-span-2 lg:col-span-1 bg-white rounded-[20px] p-6 border border-gray-300 shadow-sm flex items-center justify-between group hover:border-sm-blue transition-colors">
+                       <div className="flex flex-col gap-1">
+                          <span className="text-[12px] font-black text-gray-900 uppercase tracking-tighter">{sb.title}</span>
+                          <span className="text-[7px] font-black text-gray-400 uppercase tracking-widest">{sb.subtitle}</span>
+                       </div>
+                       <Icon className="text-blue-300 group-hover:text-sm-blue transition-colors" size={24} />
+                    </div>
+                  );
+                })}
+
+                {/* FLOW BLOCK */}
+                <div className="hidden lg:flex lg:col-span-1 bg-blue-50/30 rounded-[20px] p-6 border border-blue-100 shadow-sm items-center justify-between group hover:bg-sm-blue hover:text-white transition-all">
+                   <span className="text-[8px] font-black uppercase tracking-[0.2em]">Spatial Research Indices</span>
+                   <Layers className="text-sm-blue group-hover:text-white transition-colors" size={20} />
+                </div>
+             </section>
+
+             {/* MASONRY DISPLAY */}
+             <section className="py-6 border-t border-gray-100">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-start">
+                   {(d.masonryItems || []).map((work, i) => (
+                      <React.Fragment key={i}>
+                         <CatalogueCard 
+                           work={{ name: work.t, subcategory: work.c, image: work.img }} 
+                           isSelected={selectedItem?.t === work.t} 
+                           onClick={() => setSelectedItem(selectedItem?.t === work.t ? null : work)} 
+                           themeColor="bg-sm-blue"
+                           ringColor="ring-blue-500"
+                           textColor="text-blue-400"
+                         />
+
+                         {/* INLINE EXPANSION LOGIC */}
+                         {/* Mobile */}
+                         <div className="md:hidden col-span-full">
+                            {selectedItem?.t === work.t && (
+                               <InlineQuickView isOpen={true} onClose={() => setSelectedItem(null)} data={{ ...selectedItem, name: selectedItem.t, subcategory: selectedItem.c, image: selectedItem.img }} />
+                            )}
+                         </div>
+                         {/* Tablet (2 cols) */}
+                         {i % 2 === 1 && (
+                            <div className="hidden md:block lg:hidden col-span-full">
+                               {(d.masonryItems || []).slice(i-1, i+1).some(dw => dw.t === selectedItem?.t) && (
+                                  <InlineQuickView isOpen={true} onClose={() => setSelectedItem(null)} data={{ ...selectedItem, name: selectedItem.t, subcategory: selectedItem.c, image: selectedItem.img }} />
+                               )}
+                            </div>
+                         )}
+                         {/* Desktop (3 cols) */}
+                         {i % 3 === 2 && (
+                            <div className="hidden lg:block col-span-full">
+                               {(d.masonryItems || []).slice(i-2, i+1).some(dw => dw.t === selectedItem?.t) && (
+                                  <InlineQuickView isOpen={true} onClose={() => setSelectedItem(null)} data={{ ...selectedItem, name: selectedItem.t, subcategory: selectedItem.c, image: selectedItem.img }} />
+                               )}
+                            </div>
+                         )}
+                         {/* Handle End of List */}
+                         {i === (d.masonryItems || []).length - 1 && (
+                            <>
+                               <div className="hidden md:block lg:hidden col-span-full">
+                                  {(d.masonryItems || []).slice(Math.floor(i/2)*2).some(dw => dw.t === selectedItem?.t) && i % 2 !== 1 && (
+                                     <InlineQuickView isOpen={true} onClose={() => setSelectedItem(null)} data={{ ...selectedItem, name: selectedItem.t, subcategory: selectedItem.c, image: selectedItem.img }} />
+                                  )}
+                               </div>
+                               <div className="hidden lg:block col-span-full">
+                                  {(d.masonryItems || []).slice(Math.floor(i/3)*3).some(dw => dw.t === selectedItem?.t) && i % 3 !== 2 && (
+                                     <InlineQuickView isOpen={true} onClose={() => setSelectedItem(null)} data={{ ...selectedItem, name: selectedItem.t, subcategory: selectedItem.c, image: selectedItem.img }} />
+                                  )}
+                               </div>
+                            </>
+                         )}
+                      </React.Fragment>
+                   ))}
+                </div>
+             </section>
+
+             {/* INFO SPLIT GRID */}
+             <section className="py-12 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center border-t border-gray-100 mt-6">
+                <div className="bg-white p-12 rounded-[30px] border border-gray-300 shadow-sm">
+                   <h2 className="text-4xl font-black text-gray-900 font-heading mb-8 leading-none uppercase tracking-tighter" dangerouslySetInnerHTML={{ __html: d.infoGrid?.titleHtml }} />
+                   <div className="grid grid-cols-2 gap-3">
+                      {(d.infoGrid?.points || []).map((item, i) => (
+                         <div key={i} className="flex items-center gap-3 text-[10px] font-black text-gray-900 uppercase tracking-widest bg-gray-50 p-4 rounded-xl group hover:bg-sm-blue hover:text-white transition-all border border-gray-100">
+                            <CheckCircle2 size={14} className="text-sm-blue group-hover:text-white" />
+                            {item}
+                         </div>
+                      ))}
+                   </div>
+                </div>
+                <div className="rounded-[30px] overflow-hidden shadow-xl h-[300px]">
+                   <img src={d.infoGrid?.img} alt="Consultation" className="w-full h-full object-cover shadow-2xl" />
+                </div>
+             </section>
+           </div>
+        </div>
+      </div>
+    </main>
+  );
            })}
 
            {/* FLOW BLOCK */}

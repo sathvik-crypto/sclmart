@@ -7,6 +7,7 @@ import { FlaskConical, Beaker, Atom, Microscope, Dna, Zap, ArrowRight, ArrowUpRi
 import InlineQuickView from '../components/InlineQuickView';
 import CMSMedia from '../components/ui/CMSMedia';
 import CatalogueCard from '../components/CatalogueCard';
+import SidebarWidget from '../components/SidebarWidget';
 
 const LabsLibraries = () => {
   const { blocks, loading } = useCMSPage('labs');
@@ -62,29 +63,19 @@ const LabsLibraries = () => {
 
         {/* SIDEBAR GRID LAYOUT */}
         <section className="py-8 border-t border-gray-100 flex flex-col lg:flex-row gap-8">
-           <aside className="lg:w-[260px] flex-shrink-0">
+           <aside className="lg:w-[240px] flex-shrink-0">
               <div className="sticky top-24 space-y-2">
-                 <div className="mb-6">
+                 <div className="mb-6 px-4">
                     <h3 className="text-[10px] font-black uppercase text-gray-400 tracking-[0.3em] mb-4">COMPOSITE CORE</h3>
-                    <div className="w-8 h-1 bg-emerald-500 rounded-full" />
+                    <div className="w-8 h-1 bg-sm-blue rounded-full" />
                  </div>
                  {cats.map((cat, i) => (
-                    <button key={i} onClick={() => setSelectedCat(cat)} className={`w-full text-left px-5 py-4 rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all ${selectedCat === cat ? 'bg-emerald-600 text-white shadow-xl shadow-emerald-600/30 -translate-y-1' : 'text-gray-500 hover:bg-emerald-50 hover:text-emerald-900'}`}>{cat}</button>
+                    <button key={i} onClick={() => setSelectedCat(cat)} className={`w-full text-left px-4 py-3 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${selectedCat === cat ? 'bg-gray-900 text-white shadow-lg' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'}`}>{cat}</button>
                  ))}
-                 
-                 <div className="mt-12 overflow-hidden rounded-[30px] border border-gray-100 bg-white p-8 relative group shadow-sm">
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-50 rounded-full blur-2xl -mr-12 -mt-12 group-hover:bg-emerald-100 transition-all" />
-                    <span className="text-[9px] font-black text-gray-400 tracking-[0.2em] uppercase mb-4 block">Our Compliance</span>
-                    <div className="space-y-4 relative z-10">
-                       <div className="flex items-center gap-3">
-                          <CheckCircle2 size={14} className="text-emerald-500" />
-                          <span className="text-[9px] font-black uppercase text-gray-700">NEP Guidelines</span>
-                       </div>
-                       <div className="flex items-center gap-3">
-                          <CheckCircle2 size={14} className="text-emerald-500" />
-                          <span className="text-[9px] font-black uppercase text-gray-700">SEFA Certified</span>
-                       </div>
-                    </div>
+
+                 <div className="pt-6">
+                    <SidebarWidget title="TRENDING" items={sidebarTrending?.items} type="trending" />
+                    <SidebarWidget title="RESOURCES" items={sidebarResources?.items} type="resources" />
                  </div>
               </div>
            </aside>

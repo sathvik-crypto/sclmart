@@ -7,6 +7,7 @@ import { Compass, Box, Layers, Calculator, Square, PieChart, ArrowRight, ArrowUp
 import InlineQuickView from '../components/InlineQuickView';
 import CMSMedia from '../components/ui/CMSMedia';
 import CatalogueCard from '../components/CatalogueCard';
+import SidebarWidget from '../components/SidebarWidget';
 
 const Mathematics = () => {
   const { blocks, loading } = useCMSPage('mathematics');
@@ -64,33 +65,19 @@ const Mathematics = () => {
         <section className="py-8 border-t border-gray-100 flex flex-col lg:flex-row gap-8">
            <aside className="lg:w-[240px] flex-shrink-0">
               <div className="sticky top-24 space-y-2">
-                 <div className="mb-6">
+                 <div className="mb-6 px-4">
                     <h3 className="text-[10px] font-black uppercase text-gray-400 tracking-[0.3em] mb-4">MATH HUB</h3>
                     <div className="w-8 h-1 bg-sm-blue rounded-full" />
                  </div>
                  {cats.map((cat, i) => (
                     <button key={i} onClick={() => setSelectedCat(cat)} className={`w-full text-left px-4 py-3 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${selectedCat === cat ? 'bg-gray-900 text-white shadow-lg' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'}`}>{cat}</button>
                  ))}
-              </div>
-            
-              {/* Dynamic Resources & Trending Blocks */}
-              {sidebarResources?.items?.length > 0 && (
-                 <div className="mt-8 p-6 bg-white rounded-[25px] border border-gray-200 shadow-sm">
-                    <span className="text-[8px] font-black text-gray-400 tracking-[0.2em] uppercase mb-4 block">Resources</span>
-                    <div className="space-y-4">
-                       {sidebarResources.items.map((item, i) => {
-                          const label = typeof item === 'string' ? item : item.label;
-                          const path = typeof item === 'string' || !item.path ? '#' : item.path;
-                          return (
-                             <Link key={i} to={path} className="flex items-start gap-3 hover:translate-x-1 transition-transform group/link">
-                                <FileText size={14} className="text-blue-600 flex-shrink-0 mt-0.5" />
-                                <span className="text-[9px] font-black uppercase text-gray-900 leading-tight group-hover/link:text-sm-blue transition-colors">{label}</span>
-                             </Link>
-                          );
-                       })}
-                    </div>
+
+                 <div className="pt-6">
+                    <SidebarWidget title="TRENDING" items={sidebarTrending?.items} type="trending" />
+                    <SidebarWidget title="RESOURCES" items={sidebarResources?.items} type="resources" />
                  </div>
-              )}
+              </div>
            </aside>
 
            {/* MAIN CONTENT GALLERY */}

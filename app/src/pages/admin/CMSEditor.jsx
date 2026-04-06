@@ -128,6 +128,9 @@ const mapCSVToBlockData = (blockType, rows) => {
         return { title: rows[0].title, subtitle: rows[0].subtitle, img: rows[0].img };
     case 'sidebar_categories':
         return { categories: rows.map(r => ({ name: r.name, icon: r.icon })) };
+    case 'sidebar_trending':
+    case 'sidebar_resources':
+        return { items: rows.map(r => ({ label: r.label, path: r.path })) };
     case 'feature_card': 
         return { title: rows[0].title, btnLabel: rows[0].btnLabel, bgColor: rows[0].bgColor, btnColor: rows[0].btnColor, btnPath: rows[0].btnPath };
     default:
@@ -1192,11 +1195,11 @@ const PAGE_ALLOWED_BLOCKS = {
   design:      ['inner_page_hero', 'feature_card', 'sidebar_categories', 'sidebar_resources', 'sidebar_trending', 'cta_whatsapp'],
   manufacturing:['inner_page_hero', 'feature_card', 'sidebar_resources', 'sidebar_trending', 'cta_whatsapp', 'text_content'],
   corporate:   ['inner_page_hero', 'feature_card', 'sidebar_resources', 'sidebar_trending', 'cta_whatsapp', 'text_content'],
-  environments:['environments_page_content', 'feature_card'],
-  catalogues:  ['catalogues_page_content', 'catalogues_list', 'feature_card'],
-  guides:      ['guides_page_content', 'guides_list', 'feature_card'],
-  aboutus:     ['about_hero', 'stats', 'about_philosophy', 'journey'],
-  'contact-us':['contact_page_content', 'contact_info'],
+  environments:['environments_page_content', 'sidebar_resources', 'sidebar_trending', 'cta_whatsapp'],
+  catalogues:  ['catalogues_page_content', 'catalogues_list', 'sidebar_resources', 'sidebar_trending', 'cta_whatsapp'],
+  guides:      ['guides_page_content', 'guides_list', 'sidebar_resources', 'sidebar_trending', 'cta_whatsapp'],
+  aboutus:     ['about_hero', 'stats', 'about_philosophy', 'journey', 'sidebar_resources', 'sidebar_trending'],
+  'contact-us':['contact_page_content', 'contact_info', 'sidebar_resources', 'sidebar_trending'],
 };
 
 function PageEditor({ slug }) {

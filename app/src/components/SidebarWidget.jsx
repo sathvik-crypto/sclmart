@@ -1,0 +1,42 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { FileText, TrendingUp, ChevronRight } from 'lucide-react';
+
+const SidebarWidget = ({ title, items = [], type = 'resources' }) => {
+  if (!items || items.length === 0) return null;
+  
+  const isTrending = type === 'trending';
+  const Icon = isTrending ? TrendingUp : FileText;
+  const headerBg = 'bg-sm-blue'; // Consistent with SchoolMart turquoise
+
+  return (
+    <div className="bg-white rounded-[20px] overflow-hidden shadow-sm border border-gray-100 mb-6 group/widget hover:shadow-md transition-shadow">
+      <div className={`${headerBg} px-6 py-4 flex items-center gap-3`}>
+        <Icon size={16} className="text-white" />
+        <h3 className="text-white text-[12px] font-black uppercase tracking-[0.2em] leading-none">
+          {title}
+        </h3>
+      </div>
+      <div className="divide-y divide-gray-50">
+        {items.map((item, i) => {
+          const label = typeof item === 'string' ? item : item.label;
+          const path = typeof item === 'string' || !item.path ? '#' : item.path;
+          return (
+            <Link 
+              key={i} 
+              to={path} 
+              className="flex items-center justify-between px-6 py-4 group hover:bg-gray-50 transition-all active:bg-gray-100"
+            >
+              <span className="text-[10px] font-black uppercase text-gray-900 group-hover:text-sm-blue transition-colors leading-tight">
+                {label}
+              </span>
+              <ChevronRight size={14} className="text-gray-200 group-hover:text-sm-blue group-hover:translate-x-0.5 transition-all" />
+            </Link>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+export default SidebarWidget;
