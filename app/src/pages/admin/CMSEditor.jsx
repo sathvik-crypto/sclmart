@@ -80,11 +80,15 @@ const mapCSVToBlockData = (blockType, rows) => {
     case 'hero': {
       const r = rows[0];
       return {
-        badge: r.badge, headline1: r.headline1, headline2: r.headline2,
-        subline1: r.subline1, subline2: r.subline2,
+        badge: r.badge, 
+        headline1: r.headline1, 
+        headline2: r.headline2, 
+        subline1: r.subline1, 
+        subline2: r.subline2, 
+        bgColor: r.bgColor,
+        mediaType: r.mediaType || 'slideshow',
         cta1: { label: r.cta1_label, path: r.cta1_path },
-        cta2: { label: r.cta2_label, path: r.cta2_path },
-        mediaType: r.mediaType || 'slideshow'
+        cta2: { label: r.cta2_label, path: r.cta2_path }
       };
     }
     case 'product_carousel':
@@ -98,20 +102,6 @@ const mapCSVToBlockData = (blockType, rows) => {
       return { items: rows.map(r => ({ label: r.label, path: r.path })) };
     case 'sidebar_banners':
       return { banners: rows.map(r => ({ label: r.label, sublabel: r.sublabel, color: r.color, path: r.path })) };
-    case 'hero': {
-      const r = rows[0];
-      return { 
-        badge: r.badge, 
-        headline1: r.headline1, 
-        headline2: r.headline2, 
-        subline1: r.subline1, 
-        subline2: r.subline2, 
-        bgColor: r.bgColor,
-        mediaType: r.mediaType || 'slideshow',
-        cta1: { label: r.cta1_label, path: r.cta1_path },
-        cta2: { label: r.cta2_label, path: r.cta2_path }
-      };
-    }
     case 'cta_whatsapp': {
       const r = rows[0];
       return { badge: r.badge, headline: r.headline, description: r.description, whatsappNumber: r.whatsappNumber, phone: r.phone };
@@ -120,8 +110,22 @@ const mapCSVToBlockData = (blockType, rows) => {
       return { heading: rows[0].heading, subheading: rows[0].subheading, clients: rows.map(r => ({ name: r.name, icon: r.icon, color: r.color })) };
     case 'inner_page_hero': {
         const r = rows[0];
-        return { badge: r.badge, badgeIcon: r.badgeIcon, titleHtml: r.titleHtml, subtitle: r.subtitle, mediaType: r.mediaType || 'image', mediaUrl: r.mediaUrl };
+        return { theme: r.theme, badge: r.badge, badgeIcon: r.badgeIcon, titleHtml: r.titleHtml, subtitle: r.subtitle, mediaType: r.mediaType || 'image', mediaUrl: r.mediaUrl || r.img };
     }
+    case 'about_hero': {
+        const r = rows[0];
+        return { title: r.title, subtitle: r.subtitle, description: r.description, mediaType: r.mediaType || 'image', mediaUrl: r.mediaUrl || r.img };
+    }
+    case 'about_philosophy': {
+        const r = rows[0];
+        return { title: r.title, statement: r.statement, teamImg: r.teamImg };
+    }
+    case 'stats':
+        return { stats: rows.map(r => ({ value: r.value, label: r.label, icon: r.icon })) };
+    case 'journey':
+        return { title: rows[0].title, steps: rows.map(r => ({ y: r.y, t: r.t, d: r.d })) };
+    case 'default_hero_page':
+        return { title: rows[0].title, subtitle: rows[0].subtitle, img: rows[0].img };
     case 'sidebar_categories':
         return { categories: rows.map(r => ({ name: r.name, icon: r.icon })) };
     case 'feature_card': 
