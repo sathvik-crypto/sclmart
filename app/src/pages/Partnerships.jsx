@@ -27,27 +27,8 @@ const Partnerships = () => {
   return (
     <main className="min-h-screen bg-white pt-8 pb-10">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex flex-col lg:flex-row gap-8">
-          
-          {/* Sidebar */}
-          <aside className="lg:w-[280px] flex-shrink-0">
-            <div className="sticky top-24 space-y-6">
-              <SidebarWidget title="TRENDING" items={sidebarTrending?.items} type="trending" />
-              <SidebarWidget title="RESOURCES" items={sidebarResources?.items} type="resources" />
-              
-              <div className="bg-gray-900 p-8 rounded-[25px] text-white overflow-hidden relative group">
-                <div className="relative z-10">
-                   <h4 className="text-[10px] font-black uppercase tracking-widest text-sm-blue mb-4">Strategic Fund Raising</h4>
-                   <p className="text-[11px] font-bold uppercase tracking-widest leading-loose opacity-60 mb-6">Expert guidance for institutional growth and investor relations.</p>
-                   <button className="px-6 py-2 bg-sm-blue text-white text-[10px] font-black uppercase tracking-widest rounded-full hover:scale-105 transition-all">Connect Now</button>
-                </div>
-                <Users size={80} className="absolute -bottom-10 -right-10 text-white/5 group-hover:scale-110 transition-all opacity-20" />
-              </div>
-            </div>
-          </aside>
-
-          {/* Main Content Area */}
-          <div className="flex-grow min-w-0">
+        {/* Main Content Area */}
+        <div className="min-w-0">
             {/* LARGE HERO BLOCK */}
             <div className="bg-gray-50 rounded-[30px] p-12 lg:p-20 flex flex-col items-center text-center border border-gray-100 shadow-sm relative overflow-hidden group min-h-[450px] justify-center mb-12">
                <CMSMedia 
@@ -115,8 +96,7 @@ const Partnerships = () => {
                   </div>
                </div>
             </div>
-          </div>
-        </div>
+         </div>
       </div>
     </main>
   );

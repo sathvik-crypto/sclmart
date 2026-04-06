@@ -1,118 +1,79 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useCMSPage } from '../hooks/useCMSBlock';
-import { Flag, Phone, MessageSquare, MapPin, Search, ArrowRight, CheckCircle2, Award, Zap, Download } from 'lucide-react';
-import SidebarWidget from '../components/SidebarWidget';
+import { Rocket, CheckCircle2, ArrowRight, ShieldCheck, Zap, Globe, MessageSquare } from 'lucide-react';
 import CMSMedia from '../components/ui/CMSMedia';
 
 const SetupGuide = () => {
   const { blocks, loading } = useCMSPage('setup-guide');
 
   const heroBlock = blocks?.inner_page_hero || {};
-  const sidebarResources = blocks?.sidebar_resources || {};
-  const sidebarTrending = blocks?.sidebar_trending || {};
   
   const benefits = blocks?.benefits?.items || [
-    { title: 'NEA Compliance', icon: 'CheckCircle2', description: 'Ensuring your new school meets all National Education Authorities standards.' },
-    { title: 'Project Management', icon: 'Zap', description: 'End-to-end guidance from land identification to teacher training.' },
-    { title: 'Cost Optimization', icon: 'Award', description: 'Institutional procurement expertise helping you save 25% on initial setup.' },
-    { title: 'Brand Strategy', icon: 'Flag', description: 'Crafting a unique institutional identity for parent attraction.' },
+    { title: 'Regulatory Compliance', desc: 'Navigating state and national education board requirements.', icon: ShieldCheck },
+    { title: 'Infrastructure Design', desc: 'Expert architects specialized in modern K-12 campus planning.', icon: Globe },
+    { title: 'Operational Setup', desc: 'From HR guidelines to safety protocols and ERP selection.', icon: Zap },
   ];
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center text-sm-blue font-bold tracking-widest uppercase">Loading Consultation Hub...</div>;
+  if (loading) return <div className="min-h-screen flex items-center justify-center text-sm-blue font-bold tracking-widest uppercase">Loading Setup Guide...</div>;
 
   return (
-    <main className="min-h-screen bg-gray-50 pt-8 pb-10">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex flex-col lg:flex-row gap-8">
-          
-          {/* Sidebar */}
-          <aside className="lg:w-[280px] flex-shrink-0">
-            <div className="sticky top-24 space-y-6">
-              <SidebarWidget title="TRENDING" items={sidebarTrending?.items} type="trending" />
-              <SidebarWidget title="RESOURCES" items={sidebarResources?.items} type="resources" />
+    <main className="min-h-screen bg-white pt-8 pb-10">
+      <div className="max-w-5xl mx-auto px-4">
+        {/* Main Content Area */}
+        <div className="min-w-0">
+          {/* HERO */}
+          <div className="bg-gray-900 rounded-[45px] p-12 lg:p-24 text-white flex flex-col items-center text-center relative overflow-hidden mb-16 select-none shadow-2xl">
+             <div className="absolute top-0 right-0 w-96 h-96 bg-sm-blue/20 rounded-full blur-[120px] -mr-48 -mt-48" />
+             <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/10 rounded-full blur-[120px] -ml-48 -mb-48" />
+             
+             <CMSMedia 
+                mediaType={heroBlock.mediaType} 
+                mediaUrl={heroBlock.mediaUrl} 
+                fallbackImg={heroBlock.img} 
+                className="absolute inset-0 w-full h-full object-cover opacity-10 grayscale"
+             />
 
-              <div className="bg-white p-8 rounded-[25px] border border-gray-100 shadow-sm overflow-hidden relative">
-                <div className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-6">Expert Access</div>
-                <div className="space-y-4">
-                  <button className="w-full py-4 bg-emerald-500 text-white font-black rounded-xl text-[10px] uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-emerald-600 transition-all shadow-lg shadow-emerald-500/20">
-                     <MessageSquare size={16} /> WhatsApp Us
-                  </button>
-                  <button className="w-full py-4 bg-sm-blue text-white font-black rounded-xl text-[10px] uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-sm-blue/90 transition-all shadow-lg shadow-blue-500/20">
-                     <Phone size={16} /> Schedule Call
-                  </button>
+             <div className="relative z-10 max-w-3xl">
+                <div className="mx-auto w-fit px-5 py-2 bg-sm-blue text-white font-black rounded-full text-[10px] uppercase tracking-[0.3em] mb-10 shadow-lg">
+                   Launchpad 2025
                 </div>
-              </div>
-            </div>
-          </aside>
-
-          {/* Main Content Area */}
-          <div className="flex-grow min-w-0">
-            {/* CONSULTATION HERO */}
-            <div className="bg-white rounded-[30px] p-12 lg:p-16 mb-8 border border-gray-100 shadow-sm relative overflow-hidden group">
-               {/* Background Accents */}
-               <div className="absolute top-0 right-0 w-96 h-96 bg-sm-blue/5 rounded-full blur-[100px] -mr-48 -mt-48 pointer-events-none group-hover:bg-sm-blue/10 transition-all duration-1000" />
-               
-               <div className="relative z-10 max-w-2xl">
-                 <div className="px-4 py-1 bg-sm-blue text-white font-black rounded-full text-[9px] uppercase tracking-[0.2em] mb-8 w-fit scale-90">
-                    Institutional Advisory Hub
-                 </div>
-                 <h1 className="text-4xl lg:text-7xl font-black font-heading leading-tight mb-8 tracking-tighter text-gray-900 uppercase" dangerouslySetInnerHTML={{ __html: heroBlock.titleHtml || 'Setting Up <br/> <span className="text-sm-blue italic font-serif lowercase tracking-normal">a</span> <br/> School in India.' }} />
-                 <p className="text-gray-400 text-[12px] font-bold uppercase tracking-widest leading-loose mb-10 max-w-lg">
-                   {heroBlock.subtitle || "From spatial planning to high-density procurement, we provide end-to-end expertise in guiding you through each phase of institutional growth."}
-                 </p>
-                 
-                 <div className="flex flex-col sm:flex-row gap-5 mb-12">
-                   <div className="flex flex-col gap-1">
-                      <span className="text-[10px] font-black uppercase text-gray-900 tracking-widest">Connect Directly</span>
-                      <div className="text-[14px] font-black text-gray-900 uppercase italic">+91 99661 09191</div>
-                   </div>
-                   <div className="h-full w-[1px] bg-gray-100 hidden sm:block mx-4" />
-                   <div className="flex flex-col gap-1">
-                      <span className="text-[10px] font-black uppercase text-gray-900 tracking-widest">Email Our Team</span>
-                      <div className="text-[14px] font-black text-gray-900 uppercase italic">vision@schoolmart.in</div>
-                   </div>
-                 </div>
-
-                 <div className="flex flex-wrap gap-4">
-                   <button className="px-10 py-5 bg-gray-900 text-white font-black rounded-full text-[10px] uppercase tracking-widest flex items-center gap-3 hover:bg-sm-blue transition-all shadow-2xl">
-                      Request Blueprint Hub <ArrowRight size={16} />
+                <h1 className="text-5xl lg:text-8xl font-black font-heading leading-none mb-10 tracking-tighter uppercase" dangerouslySetInnerHTML={{ __html: heroBlock.titleHtml || 'Setting Up <br/> <span className="text-sm-blue italic font-serif lowercase tracking-normal">a</span> <br/> School in India.' }} />
+                <p className="text-white/40 text-[13px] font-black uppercase tracking-widest leading-loose max-w-xl mx-auto mb-12">
+                   {heroBlock.subtitle || "A comprehensive consultancy framework designed to bridge the gap between vision and operational reality for new institutions."}
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                   <button className="px-10 py-5 bg-white text-gray-900 font-black rounded-full text-[10px] uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-sm-blue hover:text-white transition-all shadow-xl">
+                      Request Consultation <ArrowRight size={18} />
                    </button>
-                   <button className="px-10 py-5 bg-white border border-gray-100 text-gray-900 font-black rounded-full text-[10px] uppercase tracking-widest flex items-center gap-3 hover:border-sm-blue transition-all">
-                      Download Readiness Checklist <Download size={16} />
-                   </button>
-                 </div>
-               </div>
-            </div>
+                </div>
+             </div>
+          </div>
 
-            {/* BENEFIT GRID */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
-               {benefits.map((b, i) => (
-                  <div key={i} className="bg-white p-8 rounded-[30px] border border-gray-100 shadow-sm flex items-start gap-5 hover:bg-gray-50 transition-colors group">
-                     {/* Icon can be dynamic if ICONS map added */}
-                     <div className="w-14 h-14 rounded-2xl bg-sm-blue/5 flex items-center justify-center text-sm-blue group-hover:bg-sm-blue group-hover:text-white transition-all">
-                        <CheckCircle2 size={24} />
-                     </div>
-                     <div className="flex-grow">
-                        <h3 className="text-[11px] font-black uppercase tracking-widest text-gray-900 mb-2">{b.title}</h3>
-                        <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 leading-relaxed">{b.description}</p>
-                     </div>
-                  </div>
-               ))}
-            </div>
+          {/* BENEFITS GRID */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+             {benefits.map((b, i) => (
+                <div key={i} className="bg-gray-50 p-10 rounded-[40px] border border-gray-100 group hover:border-sm-blue transition-all">
+                   <h3 className="text-lg font-black text-gray-900 uppercase tracking-tighter mb-4">{b.title}</h3>
+                   <p className="text-[12px] font-bold text-gray-400 uppercase tracking-widest leading-relaxed mb-8">{b.desc}</p>
+                   <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center text-sm-blue shadow-sm group-hover:scale-110 transition-transform">
+                      <Rocket size={24} />
+                   </div>
+                </div>
+             ))}
+          </div>
 
-            {/* TRUST INDICATORS */}
-            <div className="bg-white rounded-[30px] p-12 border border-gray-100 shadow-sm text-center">
-               <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400 mb-10">4000+ PARTNER SCHOOLS TRUST OUR ADVISORY</h4>
-               <div className="flex flex-wrap justify-center gap-10 opacity-30 grayscale hover:grayscale-0 transition-all hover:opacity-100">
-                  {/* Partner Logos Placeholder */}
-                  {['AVN Vida', 'DRS International', 'Delhi Public School', 'Podar Int.', 'VIBGYOR'].map((p, idx) => (
-                     <div key={idx} className="text-xl font-black uppercase italic text-gray-900 flex items-center gap-2">
-                        <div className="w-8 h-8 rounded bg-gray-900 flex items-center justify-center text-white text-[10px] font-bold non-italic">{p[0]}</div>
-                        {p}
-                     </div>
-                  ))}
-               </div>
-            </div>
+          {/* ADVISORY SECTION */}
+          <div className="bg-sm-blue rounded-[45px] p-16 text-white text-center relative overflow-hidden group">
+             <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(255,255,255,0.1),transparent)]" />
+             <div className="relative z-10 max-w-2xl mx-auto">
+                <h2 className="text-4xl font-black uppercase tracking-tighter mb-6">Expert Advisory Board.</h2>
+                <p className="text-white/60 text-[11px] font-black uppercase tracking-[0.2em] mb-12 leading-loose">
+                   Gain access to our panel of educationists, architects, and legal consultants who have helped establish 50+ successful schools across the subcontinent.
+                </p>
+                <button className="px-12 py-5 bg-white text-sm-blue font-black rounded-full text-[10px] uppercase tracking-widest hover:scale-105 transition-all flex items-center justify-center gap-3 mx-auto shadow-2xl">
+                   <MessageSquare size={18} /> Connect with Leads
+                </button>
+             </div>
           </div>
         </div>
       </div>
