@@ -19,8 +19,8 @@ const Corporate = () => {
   return (
     <main className="min-h-screen bg-white pt-24 pb-20 overflow-hidden relative">
       {/* PROFESSIONAL BENTO HERO (Unique for Corporate) */}
-      <section className="px-4 py-20 max-w-7xl mx-auto">
-         <div className="grid grid-cols-1 lg:grid-cols-12 lg:grid-rows-6 gap-6 h-auto lg:h-[1000px]">
+      <section className="px-4 py-12 max-w-7xl mx-auto">
+         <div className="grid grid-cols-1 lg:grid-cols-12 lg:grid-rows-6 gap-6 min-h-[900px]">
             
             {/* Main Statement Bento (Screenshot 2 Inspired) */}
             <div className="lg:col-span-8 lg:row-span-4 bg-gray-900 rounded-[60px] p-12 lg:p-20 text-white relative overflow-hidden group shadow-3xl">
