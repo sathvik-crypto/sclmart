@@ -102,7 +102,7 @@ const SchoolSale = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const listings = blocks?.listings?.items || [];
-  const dynamicCities = blocks?.sidebar_categories?.data?.categories || [];
+  const dynamicCities = blocks?.sidebar_categories?.categories || [];
   const CITIES = ['All Cities', ...dynamicCities];
 
   useEffect(() => {
