@@ -347,12 +347,15 @@ const GenericInnerPage = ({ explicitSlug }) => {
       ────────────────────────────────────────── */}
       {innerPageCta && (
         <section 
-          className={`py-16 px-6 rounded-[50px] mx-6 mt-20 mb-12 flex flex-col items-center justify-center text-center group transition-all duration-700
-            ${innerPageCta.theme === 'Black' || innerPageCta.theme === 'Blue' || innerPageCta.theme === 'Emerald' ? 
-              'bg-gray-50 border border-gray-100 text-gray-900 shadow-sm hover:bg-white hover:shadow-xl' : 
-              'bg-white border border-gray-100 text-gray-900 shadow-sm hover:shadow-md'}
-          `}
+          className="py-16 px-6 rounded-[50px] mx-6 mt-20 mb-12 flex flex-col items-center justify-center text-center group transition-all duration-700 bg-white border border-gray-100 text-gray-900 shadow-sm hover:shadow-xl relative overflow-hidden"
+          style={{ backgroundColor: innerPageCta.bgColor || undefined }}
         >
+          {!innerPageCta.bgColor && (
+            <div className={`absolute inset-0 transition-colors duration-700
+              ${innerPageCta.theme === 'Black' || innerPageCta.theme === 'Blue' || innerPageCta.theme === 'Emerald' ? 
+                'bg-gray-50/50 group-hover:bg-white' : 'bg-white'}
+            `} />
+          )}
           <div className="absolute top-0 right-0 w-64 h-64 bg-sm-blue/5 rounded-full blur-[100px] pointer-events-none" />
           <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tight mb-4 max-w-2xl px-4 relative z-10">{innerPageCta.title}</h3>
           {innerPageCta.subtitle && <p className="text-[11px] font-black uppercase tracking-widest text-gray-400 mb-10 relative z-10">{innerPageCta.subtitle}</p>}

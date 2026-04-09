@@ -1648,6 +1648,51 @@ const BlockForms = {
       </button>
     </div>
   )},
+
+  inner_page_cta: ({ data, set }) => (
+    <div className="space-y-6">
+      <SectionTitle>Inner Page Footer CTA</SectionTitle>
+      <div className="bg-white border border-gray-200 rounded-[30px] p-6 space-y-6 shadow-sm">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+           <Field label="Background Style">
+              <div className="flex items-center gap-4 p-2 bg-gray-50 rounded-xl border border-gray-100">
+                 <input 
+                   type="color" 
+                   value={data.bgColor || '#FFFFFF'} 
+                   onChange={e => set('bgColor', e.target.value)} 
+                   className="w-12 h-12 rounded-lg border-2 border-white shadow-sm cursor-pointer"
+                 />
+                 <div className="flex-1">
+                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Color HEX</p>
+                    <TextInput 
+                      value={data.bgColor || '#FFFFFF'} 
+                      onChange={v => set('bgColor', v)} 
+                      placeholder="#FFFFFF" 
+                      className="font-mono"
+                    />
+                 </div>
+              </div>
+           </Field>
+           <Field label="Subtitle / Badge">
+              <TextInput value={data.subtitle} onChange={v => set('subtitle', v)} placeholder="READY TO START YOUR PROJECT?" />
+           </Field>
+        </div>
+
+        <Field label="Headline">
+           <TextInput value={data.title} onChange={v => set('title', v)} placeholder="Let's build your institution together." />
+        </Field>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+           <Field label="Button Text">
+              <TextInput value={data.btnText} onChange={v => set('btnText', v)} placeholder="Contact Our Experts" />
+           </Field>
+           <Field label="Button Link">
+              <TextInput value={data.btnPath} onChange={v => set('btnPath', v)} placeholder="/registration" />
+           </Field>
+        </div>
+      </div>
+    </div>
+  ),
 };
 
 // Fallback: generic key-value editor for unknown block types
