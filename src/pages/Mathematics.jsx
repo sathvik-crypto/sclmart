@@ -60,6 +60,22 @@ const Mathematics = () => {
                </div>
             </section>
 
+            {blocks?.action_strip && (
+               <section className="mb-6">
+                  <Link to={blocks.action_strip.downloadPath || '/catalogues'}
+                    style={{ backgroundColor: blocks.action_strip.bgColor || '#111827' }}
+                    className="rounded-[40px] p-8 text-white flex items-center justify-between group overflow-hidden relative border border-gray-800 shadow-2xl transition-transform hover:scale-[1.01]">
+                    <div className="flex flex-col gap-2">
+                       <h3 style={{ color: blocks.action_strip.textColor || undefined }} className="text-[13px] font-black uppercase tracking-[0.2em] text-sm-blue">{blocks.action_strip.title || 'The 2025 Lookbook.'}</h3>
+                       <span className="text-[14px] font-black text-white/50 uppercase tracking-widest font-heading">{blocks.action_strip.subtitle || 'MASTER CATALOGUE'}</span>
+                    </div>
+                    <span className="p-4 bg-sm-blue text-white rounded-full shadow-lg relative z-10 transition-all group-hover:bg-white group-hover:text-sm-blue">
+                       <Download size={20} />
+                    </span>
+                  </Link>
+               </section>
+            )}
+
             {/* SIDEBAR GRID LAYOUT */}
             <section className="py-8 border-t border-gray-100 flex flex-col lg:flex-row gap-12 items-start">
                {/* LEFT SIDEBAR CATEGORY */}
