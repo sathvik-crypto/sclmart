@@ -1,66 +1,69 @@
-
 const { Sequelize, DataTypes } = require('sequelize');
-const { v4: uuidv4 } = require('uuid');
 
-const connectionString = process.argv[2];
-if (!connectionString) {
-  process.exit(1);
-}
+async function seedAll() {
+  const connectionString = 'postgresql://postgres:AnkvVIDqtWkaFfhvhlwMBOmDHBRAtxxf@metro.proxy.rlwy.net:21904/railway';
+  const sequelize = new Sequelize(connectionString, {
+    dialect: 'postgres',
+    logging: false,
+    dialectOptions: { ssl: { require: true, rejectUnauthorized: false } }
+  });
 
-const sequelize = new Sequelize(connectionString, {
-  dialect: 'postgres',
-  logging: false,
-  dialectOptions: { ssl: { require: true, rejectUnauthorized: false } }
-});
+  const CMSPage = sequelize.define('CMSPage', {
+    slug: { type: DataTypes.STRING, unique: true, allowNull: false },
+    title: { type: DataTypes.STRING, allowNull: false }
+  }, { tableName: 'CMSPages' });
 
-// Match the actual model in the repo
-const CMSPage = sequelize.define('CMSPage', {
-  id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true },
-  slug: { type: DataTypes.STRING, allowNull: false, unique: true },
-  title: { type: DataTypes.STRING, allowNull: false }
-}, { timestamps: true });
+  const pages = [
+    { slug: 'home', title: 'HOME PAGE' },
+    { slug: 'furniture', title: 'FURNITURE PAGE' },
+    { slug: 'architecture', title: 'ARCHITECTURE' },
+    { slug: 'digital', title: 'DIGITAL INFRASTRUCTURE' },
+    { slug: 'sports', title: 'SPORTS PAGE' },
+    { slug: 'libraries', title: 'LIBRARIES' },
+    { slug: 'environments', title: 'ENVIRONMENTS' },
+    { slug: 'aboutus', title: 'ABOUT US' },
+    { slug: 'contact-us', title: 'CONTACT US' },
+    { slug: 'mathematics', title: 'MATHEMATICS' },
+    { slug: 'science', title: 'SCIENCE' },
+    { slug: 'labs', title: 'LABS & LIBRARIES' },
+    { slug: 'design', title: 'SCHOOL DESIGNS' },
+    { slug: 'manufacturing', title: 'MANUFACTURING' },
+    { slug: 'corporate', title: 'CORPORATE SOLUTIONS' },
+    { slug: 'catalogues', title: 'CATALOGUES' },
+    { slug: 'guides', title: 'GUIDES & MANUALS' },
+    { slug: 'school-sale', title: 'SCHOOL SALE' },
+    { slug: 'partnerships', title: 'PARTNERSHIPS' },
+    { slug: 'setup-guide', title: 'SETUP GUIDE' },
+    { slug: 'workshops', title: 'WORKSHOPS' },
+    { slug: 'fundraising', title: 'FUNDRAISING' },
+    { slug: 'how-it-works', title: 'HOW IT WORKS' },
+    { slug: 'pricing', title: 'PRICING' },
+    { slug: 'shipping-policy', title: 'SHIPPING POLICY' },
+    { slug: 'cancellation-policy', title: 'CANCELLATION POLICY' },
+    { slug: 'replacement-return', title: 'REPLACEMENT & RETURN' },
+    { slug: 'payments', title: 'PAYMENTS' },
+    { slug: 'order-rejection-policy', title: 'ORDER REJECTION POLICY' },
+    { slug: 'seller-help', title: 'SELLER HELP' },
+    { slug: 'sell-on-schoolmart', title: 'SELL ON SCHOOLMART' },
+    { slug: 'report-issue', title: 'REPORT ISSUE' },
+    { slug: 'blog', title: 'BLOG' },
+    { slug: 'delivery-locations', title: 'DELIVERY LOCATIONS' },
+    { slug: 'registration', title: 'REGISTRATION' },
+    { slug: 'login', title: 'LOGIN' },
+    { slug: 'forgot-password', title: 'FORGOT PASSWORD' }
+  ];
 
-const pagesToSeed = [
-  { slug: 'mathematics', title: 'Mathematics' },
-  { slug: 'science', title: 'Science' },
-  { slug: 'labs', title: 'Labs & Libraries' },
-  { slug: 'architecture', title: 'Architecture' },
-  { slug: 'environments', title: 'Environments' },
-  { slug: 'guides', title: 'Guides & Manuals' },
-  { slug: 'catalogues', title: 'Catalogues' },
-  { slug: 'school-sale', title: 'School Sale' },
-  { slug: 'design', title: 'School Designs' },
-  { slug: 'manufacturing', title: 'Manufacturing' },
-  { slug: 'corporate', title: 'Corporate Solutions' },
-  { slug: 'aboutus', title: 'About Us' },
-  { slug: 'how-it-works', title: 'How It Works' },
-  { slug: 'pricing', title: 'Pricing' }
-];
-
-async function seed() {
   try {
     await sequelize.authenticate();
-    console.log('Connected to Production DB.');
-
-    for (const p of pagesToSeed) {
-      const existing = await CMSPage.findOne({ where: { slug: p.slug } });
-      if (!existing) {
-        await CMSPage.create({
-          id: uuidv4(),
-          slug: p.slug,
-          title: p.title
-        });
-        console.log(`Created page: ${p.title} (/${p.slug})`);
-      } else {
-        console.log(`Page already exists: ${p.title} (/${p.slug})`);
-      }
+    for (const p of pages) {
+      await CMSPage.findOrCreate({ where: { slug: p.slug }, defaults: p });
     }
-
-    console.log('--- ALL PAGES SYNCED SUCCESSFULLY ---');
-    process.exit(0);
-  } catch (err) {
-    console.error('SEED ERROR:', err);
-    process.exit(1);
+    console.log('✅ All 37 pages synchronized with production database.');
+  } catch (error) {
+    console.error('Error:', error);
+  } finally {
+    await sequelize.close();
   }
 }
-seed();
+
+seedAll();

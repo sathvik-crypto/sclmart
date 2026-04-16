@@ -12,15 +12,11 @@ const CANONICAL_SLUGS = new Set([
   'sell-on-schoolmart', 'report-issue', 'blog', 'delivery-locations', 'forgot-password'
 ]);
 
-// Get all pages — only returns canonical slugs to prevent duplicate stale entries
-// Includes blocks data so admin components (e.g. ProductManager) can read
-// sidebar_categories without needing a separate getPage call per page.
+// Get all pages — returns all registered pages in the database
 exports.getAllPages = async (req, res) => {
   try {
     const pages = await CMSPage.findAll({ order: [['title', 'ASC']] });
-    // Filter to canonical slugs only; de-dupe by title keeping canonical slug
-    const filtered = pages.filter(p => CANONICAL_SLUGS.has(p.slug));
-
+    
     // Attach blocks to each page
     const allBlocks = await CMSBlock.findAll({ order: [['order', 'ASC']] });
     const blocksByPage = {};
@@ -35,7 +31,7 @@ exports.getAllPages = async (req, res) => {
       });
     });
 
-    const result = filtered.map(p => ({
+    const result = pages.map(p => ({
       ...p.toJSON(),
       blocks: blocksByPage[p.slug] || []
     }));
